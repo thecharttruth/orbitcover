@@ -1,6 +1,8 @@
+import { toast } from "sonner";
 import { formatCompact, formatMoney, formatPctPlain, formatPrice, formatStrike } from "@/lib/format";
 import { formatExpiryLong } from "@/lib/time";
 import type { CoverPick, ExpectedMove } from "@/lib/market/types";
+import { copyTosCover } from "@/lib/market/tos-copy";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { MoveMap } from "@/components/desk/move-map";
@@ -18,6 +20,18 @@ export function WeekPanel({
   expectedMove: ExpectedMove | null;
   onOpen: (pick: CoverPick) => void;
 }) {
+  async function onCopyTos() {
+    if (!pick) return;
+    try {
+      await copyTosCover(pick, last, 1);
+      toast.success("TOS cover copied", {
+        description: "Paste into order entry or use Covered Stock on the option symbol. Reprice on live TOS.",
+      });
+    } catch {
+      toast.error("Could not copy", { description: "Clipboard permission denied." });
+    }
+  }
+
   return (
     <Card>
       <CardHeader>
@@ -53,9 +67,14 @@ export function WeekPanel({
               <Stat k="Volume" v={formatCompact(pick.volume)} />
               <Stat k="Open interest" v={formatCompact(pick.openInterest)} />
             </dl>
-            <Button className="w-full sm:w-auto" onClick={() => onOpen(pick)}>
-              Open 1× {formatStrike(pick.strike)}C
-            </Button>
+            <div className="flex flex-wrap gap-2">
+              <Button className="w-full sm:w-auto" onClick={() => onOpen(pick)}>
+                Open 1× {formatStrike(pick.strike)}C
+              </Button>
+              <Button className="w-full sm:w-auto" variant="outline" onClick={() => void onCopyTos()}>
+                Copy TOS
+              </Button>
+            </div>
           </>
         ) : (
           <p className="text-sm text-muted-foreground">No ITM call scored for this expiry yet.</p>

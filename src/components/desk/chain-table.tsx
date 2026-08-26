@@ -1,6 +1,8 @@
+import { toast } from "sonner";
 import { formatCompact, formatPrice, formatPctPlain, formatStrike } from "@/lib/format";
 import { formatExpiryLabel } from "@/lib/time";
 import type { CoverPick } from "@/lib/market/types";
+import { copyTosCover } from "@/lib/market/tos-copy";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
@@ -21,6 +23,17 @@ export function ChainTable({
 
   if (rows.length === 0) {
     return <p className="text-sm text-muted-foreground">No ITM weekly calls in the chain.</p>;
+  }
+
+  async function onCopyTos(row: CoverPick) {
+    try {
+      await copyTosCover(row, spot, 1);
+      toast.success("TOS cover copied", {
+        description: `${formatStrike(row.strike)}C · reprice on live TOS before send.`,
+      });
+    } catch {
+      toast.error("Could not copy");
+    }
   }
 
   return (
@@ -82,9 +95,14 @@ export function ChainTable({
                   {formatCompact(row.volume)} / {formatCompact(row.openInterest)}
                 </td>
                 <td className="px-2 py-2.5 text-right">
-                  <Button size="sm" variant={rec ? "default" : "ghost"} onClick={() => onSelect(row)}>
-                    Cover
-                  </Button>
+                  <div className="flex flex-wrap justify-end gap-1">
+                    <Button size="sm" variant={rec ? "default" : "ghost"} onClick={() => onSelect(row)}>
+                      Cover
+                    </Button>
+                    <Button size="sm" variant="outline" onClick={() => void onCopyTos(row)}>
+                      TOS
+                    </Button>
+                  </div>
                 </td>
               </tr>
             );

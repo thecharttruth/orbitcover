@@ -1,0 +1,36 @@
+{
+  "url": "http://127.0.0.1:8080/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "Orbit Cover",
+      "hasCanvas": false,
+      "bodyTextLen": 2466,
+      "bodyTextHash": "bf9cdf156b467e16b8e7500915bcd815baf51693400778e56a73f0dbe03e2d40",
+      "bodyTextPrefix": "ORBIT COVER SPCX ITM covered-call desk How it works Refresh SPCX",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "Orbit Cover",
+      "hasCanvas": false,
+      "bodyTextLen": 2466,
+      "bodyTextHash": "bf9cdf156b467e16b8e7500915bcd815baf51693400778e56a73f0dbe03e2d40",
+      "bodyTextPrefix": "ORBIT COVER SPCX ITM covered-call desk How it works Refresh SPCX",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-preview.json"
+}
